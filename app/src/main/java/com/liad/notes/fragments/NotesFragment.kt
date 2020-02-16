@@ -16,6 +16,7 @@ import com.liad.notes.activities.MainActivity
 import com.liad.notes.adapters.NoteAdapter
 import com.liad.notes.models.Note
 import com.liad.notes.utils.Constants.Companion.NOTE_DESC
+import com.liad.notes.utils.Constants.Companion.NOTE_ID
 import com.liad.notes.utils.Constants.Companion.NOTE_PRIORITY
 import com.liad.notes.utils.Constants.Companion.NOTE_TITLE
 import com.liad.notes.utils.extensions.changeFragment
@@ -99,12 +100,12 @@ class NotesFragment : Fragment(), View.OnClickListener {
     private fun setListeners() {
         fragment_notes_add_note_floating_button.setOnClickListener(this)
 
-        /*val itemTouchHelper = ItemTouchHelper(getItemTouchHelper())
-        itemTouchHelper.attachToRecyclerView(recyclerView)*/
+        val itemTouchHelper = ItemTouchHelper(getItemTouchHelper())
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun getItemTouchHelper() =
-        object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {
+        object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT /*or ItemTouchHelper.LEFT*/) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -116,18 +117,15 @@ class NotesFragment : Fragment(), View.OnClickListener {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if (direction == ItemTouchHelper.RIGHT) {
                     val currentNote = noteAdapter.getNoteAt(viewHolder.adapterPosition)
-                    noteViewModel.deleteNote(currentNote)
                     activity?.let {
                         toast(
                             it,
                             "${currentNote.title} removed!"
                         )
                     }
-                    noteAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                    noteViewModel.deleteNote(currentNote)
                 }
             }
-
-
         }
 
     private fun showProgress(show: Boolean = true) {
@@ -139,6 +137,7 @@ class NotesFragment : Fragment(), View.OnClickListener {
             override fun onClick(note: Note) {
                 activity?.let {
                     val bundle = Bundle()
+                    bundle.putLong(NOTE_ID, note.id)
                     bundle.putString(NOTE_TITLE, note.title)
                     bundle.putString(NOTE_DESC, note.description)
                     bundle.putInt(NOTE_PRIORITY, note.priority)

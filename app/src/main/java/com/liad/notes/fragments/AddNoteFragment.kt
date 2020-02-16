@@ -12,6 +12,7 @@ import com.liad.notes.R
 import com.liad.notes.activities.MainActivity
 import com.liad.notes.models.Note
 import com.liad.notes.utils.Constants.Companion.NOTE_DESC
+import com.liad.notes.utils.Constants.Companion.NOTE_ID
 import com.liad.notes.utils.Constants.Companion.NOTE_PRIORITY
 import com.liad.notes.utils.Constants.Companion.NOTE_TITLE
 import com.liad.notes.utils.extensions.toast
@@ -40,7 +41,7 @@ class AddNoteFragment : Fragment() {
         (activity as? MainActivity)?.let { it.supportActionBar?.hide() }
         return inflater.inflate(R.layout.fragment_add_note, container, false)
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
@@ -78,7 +79,9 @@ class AddNoteFragment : Fragment() {
             val title = titleTextInputLayout.editText?.text.toString()
             val description = descriptionTextInputLayout.editText?.text.toString()
             val priority = numberPicker.value
-            noteViewModel.insertNote(Note(title, description, priority))
+            val note = Note(title, description, priority)
+            arguments?.let { note.id = it.getLong(NOTE_ID) }
+            noteViewModel.insertNote(note)
             activity?.supportFragmentManager?.popBackStack()
         } else {
             activity?.let { toast(it, "Please make sure you've filled all details...") }

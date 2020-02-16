@@ -63,7 +63,6 @@ class NoteRepository(notesDatabase: NoteDatabase) {
         }
     }
 
-
     fun deleteAllNotes() {
         val notesMutableLiveData = notesStatefulLiveData as? MutableStatefulLiveData<List<Note>>
         notesMutableLiveData?.putLoading()
