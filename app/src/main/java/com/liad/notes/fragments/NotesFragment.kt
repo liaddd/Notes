@@ -12,7 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.climacell.statefulLiveData.core.StatefulData
 import com.liad.notes.R
+import com.liad.notes.activities.MainActivity
 import com.liad.notes.adapters.NoteAdapter
+import com.liad.notes.models.Note
+import com.liad.notes.utils.Constants.Companion.NOTE_DESC
+import com.liad.notes.utils.Constants.Companion.NOTE_PRIORITY
+import com.liad.notes.utils.Constants.Companion.NOTE_TITLE
 import com.liad.notes.utils.extensions.changeFragment
 import com.liad.notes.utils.extensions.toast
 import com.liad.notes.viewmodels.NoteViewModel
@@ -29,12 +34,13 @@ class NotesFragment : Fragment(), View.OnClickListener {
 
 
     private lateinit var recyclerView: RecyclerView
-    private val noteAdapter = NoteAdapter()
+    private val noteAdapter = NoteAdapter().apply { listener = createAdapterListener() }
     private val noteViewModel: NoteViewModel by inject()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        inflater.inflate(R.layout.fragment_notes, container, false)
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        (activity as? MainActivity)?.let { it.supportActionBar?.show() }
+        return inflater.inflate(R.layout.fragment_notes, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,8 +67,6 @@ class NotesFragment : Fragment(), View.OnClickListener {
                 true
             )
         }
-
-        //noteViewModel.insertNote(Note("New ${Random.nextInt(100)}", "new ${Random.nextInt()}", Random.nextInt(10)))
     }
 
     private fun initViews() {
@@ -73,18 +77,13 @@ class NotesFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun setListeners() {
-        fragment_notes_add_note_floating_button.setOnClickListener(this)
-
-        /*val itemTouchHelper = ItemTouchHelper(getItemTouchHelper())
-        itemTouchHelper.attachToRecyclerView(recyclerView)*/
-    }
-
     private fun setObservers() {
         noteViewModel.getAllNotes().observe(viewLifecycleOwner, Observer {
             when (it) {
                 is StatefulData.Success -> {
                     showProgress(false)
+                    fragment_note_empty_state_text.visibility = View.GONE
+                    if (it.data.isNullOrEmpty()) fragment_note_empty_state_text.visibility = View.VISIBLE
                     noteAdapter.setNotes(it.data)
                 }
                 is StatefulData.Loading -> {
@@ -95,6 +94,13 @@ class NotesFragment : Fragment(), View.OnClickListener {
                 }
             }
         })
+    }
+
+    private fun setListeners() {
+        fragment_notes_add_note_floating_button.setOnClickListener(this)
+
+        /*val itemTouchHelper = ItemTouchHelper(getItemTouchHelper())
+        itemTouchHelper.attachToRecyclerView(recyclerView)*/
     }
 
     private fun getItemTouchHelper() =
@@ -128,5 +134,22 @@ class NotesFragment : Fragment(), View.OnClickListener {
         fragment_note_progress_bar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
+    private fun createAdapterListener() =
+        object : NoteAdapter.OnNoteClickListener {
+            override fun onClick(note: Note) {
+                activity?.let {
+                    val bundle = Bundle()
+                    bundle.putString(NOTE_TITLE, note.title)
+                    bundle.putString(NOTE_DESC, note.description)
+                    bundle.putInt(NOTE_PRIORITY, note.priority)
+
+                    changeFragment(
+                        it.supportFragmentManager,
+                        fragment = AddNoteFragment.newInstance(bundle),
+                        addToBackStack = true
+                    )
+                }
+            }
+        }
 
 }

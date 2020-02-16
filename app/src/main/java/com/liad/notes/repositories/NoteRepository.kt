@@ -65,14 +65,15 @@ class NoteRepository(notesDatabase: NoteDatabase) {
 
 
     fun deleteAllNotes() {
-        (notesStatefulLiveData as? MutableStatefulLiveData<List<Note>>)?.putLoading()
+        val notesMutableLiveData = notesStatefulLiveData as? MutableStatefulLiveData<List<Note>>
+        notesMutableLiveData?.putLoading()
         executor.submit {
             try {
                 dao.deleteAllNotes()
             } catch (exception: Exception) {
                 Log.d("Liad", "error $exception")
             } finally {
-                (notesStatefulLiveData as? MutableStatefulLiveData<List<Note>>)?.putLoading(false)
+                notesMutableLiveData?.putData(emptyList())
             }
         }
     }

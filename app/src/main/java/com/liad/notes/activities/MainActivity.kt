@@ -3,6 +3,7 @@ package com.liad.notes.activities
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import com.liad.notes.R
 import com.liad.notes.fragments.NotesFragment
@@ -13,13 +14,14 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
-    private val noteViewModel : NoteViewModel by inject()
+    private val noteViewModel: NoteViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        requestWindowFeature(Window.FEATURE_ACTION_BAR)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        changeFragment(supportFragmentManager, R.id.main_activity_frame_layout, NotesFragment.newInstance())
+        changeFragment(supportFragmentManager, fragment = NotesFragment.newInstance())
     }
 
 

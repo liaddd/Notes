@@ -8,7 +8,8 @@ import androidx.fragment.app.FragmentManager
 import com.liad.notes.R
 
 fun changeFragment(
-    fragmentManager: FragmentManager, @IdRes containerId: Int,
+    fragmentManager: FragmentManager,
+    @IdRes containerId: Int = R.id.main_activity_frame_layout,
     fragment: Fragment,
     addToBackStack: Boolean = false
 ) {
@@ -23,6 +24,11 @@ fun changeFragment(
     transaction.replace(containerId, fragment, fragment::class.java.simpleName).commit()
 }
 
-fun toast(context: Context , message: String, duration : Int = Toast.LENGTH_SHORT){
-    Toast.makeText(context , message , duration).show()
+fun toast(context: Context, message: String, duration: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(context, message, duration).show()
+}
+
+fun <T> MutableList<T>.clearAndAddAll(newData: List<T>) {
+    clear()
+    addAll(newData)
 }

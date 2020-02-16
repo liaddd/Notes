@@ -4,4 +4,6 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="priority">Priority</string>
+    <string name="notes_empty_state_text">We could\'nt find any saved Notes</string>
+    <string name="save">Save</string>
 </resources>

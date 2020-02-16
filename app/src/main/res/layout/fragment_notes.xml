@@ -7,12 +7,24 @@
         android:layout_height="match_parent"
         tools:context=".fragments.HostFragment">
 
+    <TextView
+            android:id="@+id/fragment_note_empty_state_text"
+            android:textStyle="bold"
+            android:fontFamily="casual"
+            android:layout_marginTop="@dimen/margin_16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center_horizontal"
+            android:text="@string/notes_empty_state_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"/>
+
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_notes_recycler_view"
             android:layout_width="match_parent"
-            tools:listitem="@layout/note_item_list"
             android:layout_height="match_parent"/>
-
 
     <ProgressBar
             android:id="@+id/fragment_note_progress_bar"

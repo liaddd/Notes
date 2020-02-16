@@ -9,7 +9,11 @@ import android.widget.NumberPicker
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import com.liad.notes.R
+import com.liad.notes.activities.MainActivity
 import com.liad.notes.models.Note
+import com.liad.notes.utils.Constants.Companion.NOTE_DESC
+import com.liad.notes.utils.Constants.Companion.NOTE_PRIORITY
+import com.liad.notes.utils.Constants.Companion.NOTE_TITLE
 import com.liad.notes.utils.extensions.toast
 import com.liad.notes.viewmodels.NoteViewModel
 import kotlinx.android.synthetic.main.fragment_add_note.*
@@ -19,8 +23,10 @@ import org.koin.android.ext.android.inject
 class AddNoteFragment : Fragment() {
 
     companion object {
-        fun newInstance(): AddNoteFragment {
-            return AddNoteFragment()
+        fun newInstance(bundle: Bundle? = null): AddNoteFragment {
+            val addNoteFragment = AddNoteFragment()
+            bundle?.let { addNoteFragment.arguments = it }
+            return addNoteFragment
         }
     }
 
@@ -30,13 +36,17 @@ class AddNoteFragment : Fragment() {
 
     private val noteViewModel: NoteViewModel by inject()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        inflater.inflate(R.layout.fragment_add_note, container, false)
-
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        (activity as? MainActivity)?.let { it.supportActionBar?.hide() }
+        return inflater.inflate(R.layout.fragment_add_note, container, false)
+    }
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        arguments?.let {
+            populateFields(it)
+        }
         setListeners()
     }
 
@@ -48,6 +58,13 @@ class AddNoteFragment : Fragment() {
             minValue = 1
             maxValue = 10
         }
+    }
+
+    private fun populateFields(bundle: Bundle) {
+        fragment_add_note_button.text = getString(R.string.save)
+        titleTextInputLayout.editText?.setText(bundle.getString(NOTE_TITLE, ""))
+        descriptionTextInputLayout.editText?.setText(bundle.getString(NOTE_DESC, ""))
+        numberPicker.value = bundle.getInt(NOTE_PRIORITY, 1)
     }
 
     private fun setListeners() {
