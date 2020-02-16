@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nav_graph" app:startDestination="@id/hostFragment">
+
+
+    <fragment android:id="@+id/hostFragment" android:name="com.liad.notes.fragments.HostFragment"
+              android:label="fragment_host" tools:layout="@layout/fragment_host"/>
+    <activity android:id="@+id/mainActivity" android:name="com.liad.notes.activities.MainActivity" android:label="activity_main"
+              tools:layout="@layout/activity_main"/>
+</navigation>
