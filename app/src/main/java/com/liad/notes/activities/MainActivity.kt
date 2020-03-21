@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         changeFragment(supportFragmentManager, fragment = NotesFragment.newInstance())
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_item_delete_all -> {
@@ -33,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
