@@ -8,10 +8,8 @@ import org.koin.dsl.module
 
 val appModule = module {
 
-
     single { NoteDatabase.getDatabase(NoteApplication.instance) }
     single { NoteRepository(get()) }
-
 
     factory { NoteViewModel(get()) }
 }
