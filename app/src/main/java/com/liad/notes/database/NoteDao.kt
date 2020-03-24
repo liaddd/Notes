@@ -12,10 +12,10 @@ interface NoteDao {
     fun insertNote(note: Note)
 
     @Query("SELECT * FROM notes ORDER BY priority DESC")
-    fun getAllNotes() : LiveData<List<Note>>
+    fun getAllNotes(): LiveData<List<Note>>
 
     @Delete
-    fun deleteNote(note : Note)
+    fun deleteNote(note: Note)
 
     @Query("DELETE FROM notes")
     fun deleteAllNotes()

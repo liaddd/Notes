@@ -38,7 +38,11 @@ class NotesFragment : Fragment(), View.OnClickListener {
     private val noteAdapter = NoteAdapter().apply { listener = createAdapterListener() }
     private val noteViewModel: NoteViewModel by inject()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         (activity as? MainActivity)?.let { it.supportActionBar?.show() }
         return inflater.inflate(R.layout.fragment_notes, container, false)
     }
@@ -84,7 +88,8 @@ class NotesFragment : Fragment(), View.OnClickListener {
                 is StatefulData.Success -> {
                     showProgress(false)
                     fragment_note_empty_state_text.visibility = View.GONE
-                    if (it.data.isNullOrEmpty()) fragment_note_empty_state_text.visibility = View.VISIBLE
+                    if (it.data.isNullOrEmpty()) fragment_note_empty_state_text.visibility =
+                        View.VISIBLE
                     noteAdapter.setNotes(it.data)
                 }
                 is StatefulData.Loading -> {
@@ -105,7 +110,8 @@ class NotesFragment : Fragment(), View.OnClickListener {
     }
 
     private fun getItemTouchHelper() =
-        object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT /*or ItemTouchHelper.LEFT*/) {
+        object :
+            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT /*or ItemTouchHelper.LEFT*/) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,

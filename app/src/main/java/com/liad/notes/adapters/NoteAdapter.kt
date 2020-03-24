@@ -12,10 +12,12 @@ import com.liad.notes.utils.extensions.clearAndAddAll
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
 
     private val notesList = mutableListOf<Note>()
-    var listener : OnNoteClickListener? = null
+    var listener: OnNoteClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.note_item_list, parent, false))
+        return MyViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.note_item_list, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -25,7 +27,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
         holder.description.text = note.description
         holder.priority.text = note.priority.toString()
 
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             listener?.onClick(note)
         }
     }
@@ -45,13 +47,13 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val title : TextView = itemView.findViewById(R.id.note_item_list_title)
-        val description : TextView = itemView.findViewById(R.id.note_item_list_description)
-        val priority : TextView = itemView.findViewById(R.id.note_item_list_priority)
+        val title: TextView = itemView.findViewById(R.id.note_item_list_title)
+        val description: TextView = itemView.findViewById(R.id.note_item_list_description)
+        val priority: TextView = itemView.findViewById(R.id.note_item_list_priority)
     }
 
 
-    interface OnNoteClickListener{
+    interface OnNoteClickListener {
         fun onClick(note: Note)
     }
 }

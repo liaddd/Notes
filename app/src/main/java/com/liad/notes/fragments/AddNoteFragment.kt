@@ -37,7 +37,11 @@ class AddNoteFragment : Fragment() {
 
     private val noteViewModel: NoteViewModel by inject()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         (activity as? MainActivity)?.let { it.supportActionBar?.hide() }
         return inflater.inflate(R.layout.fragment_add_note, container, false)
     }

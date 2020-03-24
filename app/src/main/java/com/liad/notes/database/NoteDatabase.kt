@@ -24,10 +24,10 @@ abstract class NoteDatabase : RoomDatabase() {
             }
             synchronized(this) {
                 return Room.databaseBuilder(
-                    context.applicationContext,
-                    NoteDatabase::class.java,
-                    "notes.db"
-                ).fallbackToDestructiveMigration()
+                        context.applicationContext,
+                        NoteDatabase::class.java,
+                        "notes.db"
+                    ).fallbackToDestructiveMigration()
                     .build()
             }
         }

@@ -41,7 +41,8 @@ class NoteRepository(notesDatabase: NoteDatabase) {
 
 
     fun insertNote(newNote: Note) {
-        var possibleNoteList = (notesStatefulLiveData.value as? StatefulData.Success<List<Note>>)?.data
+        var possibleNoteList =
+            (notesStatefulLiveData.value as? StatefulData.Success<List<Note>>)?.data
         val noteMutableLiveData = notesStatefulLiveData as? MutableStatefulLiveData<List<Note>>
         noteMutableLiveData?.putLoading()
 
